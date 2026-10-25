@@ -1,0 +1,35 @@
+name: Luyen Khi (Build iOS TrollStore)
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build IPA
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cai dat XcodeGen
+        run: brew install xcodegen
+
+      - name: Tao Project iOS
+        run: xcodegen generate
+
+      - name: Build App
+        run: |
+          xcodebuild -project TangBaoCac.xcodeproj -scheme TangBaoCac -sdk iphoneos -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO build -derivedDataPath build
+
+      - name: Dong goi file IPA cho TrollStore
+        run: |
+          mkdir -p Payload
+          mv build/Build/Products/Release-iphoneos/TangBaoCac.app Payload/
+          zip -r TangBaoCac.ipa Payload
+
+      - name: Tra ket qua (Upload Artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: TangBaoCac-TrollStore
+          path: TangBaoCac.ipa
