@@ -1,0 +1,14 @@
+name: TangBaoCac
+options:
+  bundleIdPrefix: com.tmccodedao
+targets:
+  TangBaoCac:
+    type: application
+    platform: iOS
+    deploymentTarget: "15.0"
+    sources: [Sources]
+    settings:
+      base:
+        CODE_SIGN_IDENTITY: ""
+        CODE_SIGNING_REQUIRED: "NO"
+        CODE_SIGN_ENTITLEMENTS: ""
